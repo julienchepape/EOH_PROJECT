@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.eoh.assignment.domain.Entity" table="Entity" >
+       <id name="entityId" type="long" column="EntityId">
+			<generator class="identity" />
+		</id>
+        <property name="entityName" type="string">
+            <column name="EntityName"   />
+        </property>
+        <property name="emailAddress" type="string">
+            <column name="EmailAddress" />
+        </property>
+        
+        <!--  <set name="cicRecord" table="CIC"
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="EntityId" not-null="true" />
+            </key>
+            <one-to-many class="com.eoh.assignment.domain.CIC" />
+        </set>
+        -->
+        <set name="cicRecord" cascade="all" >
+ 
+<key column="EntityId" />
+<one-to-many class="com.eoh.assignment.domain.CIC" />
+ 
+</set>
+        
+    </class>
+    
+  
+</hibernate-mapping>

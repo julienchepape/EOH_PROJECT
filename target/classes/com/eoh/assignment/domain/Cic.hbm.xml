@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.eoh.assignment.domain.CIC" table="CIC" >
+       <id name="cicId" type="long" column="CicId">
+			<generator class="identity" />
+		</id>
+        <property name="cicType" type="string">
+            <column name="CicType"   />
+        </property>
+        <property name="subject" type="string">
+            <column name="Subject" />
+        </property>
+         <property name="body" type="string">
+            <column name="Body" />
+        </property>
+        <property name="sourceSystem" type="string">
+            <column name="SourceSystem" />
+        </property>
+        
+        <property name="timeStamp" type="calendar">
+			<column name="TimeStamp" />
+		</property>
+        
+      
+        
+    </class>
+    
+  
+</hibernate-mapping>
