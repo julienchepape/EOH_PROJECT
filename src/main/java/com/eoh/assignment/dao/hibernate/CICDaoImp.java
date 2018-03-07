@@ -1,8 +1,13 @@
 package com.eoh.assignment.dao.hibernate;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
 import com.eoh.assignment.dao.CICDao;
 import com.eoh.assignment.domain.CIC;
 import com.eoh.assignment.util.SessionFactoryHelper;
@@ -19,13 +24,26 @@ public class CICDaoImp implements CICDao {
 	 * @return returns CIC object
 	 */
 	public CIC retrieveCicInfo(long cidId) {
-		SessionFactory factory = SessionFactoryHelper.getSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		CIC cic = (CIC) session.get(CIC.class, cidId);
-		session.getTransaction().commit();
-		session.close();
 
+		Transaction transaction = null;
+		Session session = null;
+		CIC cic = null;
+		try {
+			SessionFactory factory = SessionFactoryHelper.getSessionFactory();
+			session = factory.openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(CIC.class);
+			criteria.add(Restrictions.eq("CicId", cidId));
+			cic = (CIC) criteria.uniqueResult();
+			transaction.commit();
+		} catch (HibernateException e) {
+
+			session.getTransaction().rollback();
+			LOGGER.error(e.getMessage());
+
+		} finally {
+			session.close();
+		}
 		LOGGER.info("Done processing method to retrieve CIC");
 
 		return cic;
